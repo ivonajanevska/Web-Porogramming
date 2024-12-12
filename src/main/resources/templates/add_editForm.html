@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title th:text="${event?.id == null ? 'Add New Event' : 'Edit Event'}">Event Form</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 th:text="${event?.id == null ? 'Add a New Event' : 'Edit Event'}"></h1>
+</header>
+<main>
+    <form th:action="${event?.id == null ? '/events/add' : '/events/edit/' + event.id}" method="post">
+        <!-- Име на настанот -->
+        <label for="name">Event Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter event name" th:value="${event?.name}" required><br><br>
+
+        <!-- Опис на настанот -->
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" placeholder="Enter event description" required th:text="${event?.description}"></textarea><br><br>
+
+        <!-- Популарност (рејтинг) -->
+        <label for="popularityScore">Rating:</label>
+        <input type="number" id="popularityScore" name="popularityScore" min="0" max="5" step="0.1" placeholder="Enter rating" th:value="${event?.popularityScore}" required><br><br>
+
+        <!-- Локација (Add/ Edit) -->
+        <label for="location">Location:</label>
+        <!-- Ако е за уредување, прикажи текстуално поле за локацијата -->
+        <div id="locationField" th:if="${event?.id != null}">
+            <input type="text" id="location" name="location" th:value="${event?.location?.name}" readonly><br><br>
+        </div>
+
+        <!-- Ако е за додавање, прикажи drop-down мени со локации -->
+        <div id="locationSelect" th:if="${event?.id == null}">
+            <select id="location" name="locationId" required>
+                <option value="" disabled selected>Select a location</option>
+                <option th:each="location : ${locations}" th:value="${location.id}" th:text="${location.name}"
+                        th:selected="${event?.location?.id == location.id}"></option>
+            </select><br><br>
+        </div>
+
+        <!-- Копче за поднесување -->
+        <input type="submit" th:value="${event?.id == null ? 'Save Event' : 'Save Changes'}"><br><br>
+    </form>
+
+    <a href="/events">Back to Events</a>
+</main>
+</body>
+</html>

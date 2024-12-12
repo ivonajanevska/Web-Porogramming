@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Edit Event</title>
+</head>
+<body>
+<h1>Edit Event</h1>
+
+<form th:action="@{'/editEvent/{eventId}'(eventId=${event.id})}" method="post">
+    <!-- Поле за име на настан -->
+    <label for="name">Event Name:</label>
+    <input type="text" id="name" name="name" th:value="${event.name}" /><br><br>
+
+    <!-- Поле за опис на настан -->
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" th:value="${event.description}" /><br><br>
+
+    <!-- Поле за рејтинг -->
+    <label for="popularityScore">Popularity Score:</label>
+    <input type="number" id="popularityScore" name="popularityScore" th:value="${event.popularityScore}" step="0.1" min="0" max="5" /><br><br>
+
+    <!-- Копче за зачувување на промените -->
+    <input type="submit" value="Save Changes" />
+</form>
+
+</body>
+</html>

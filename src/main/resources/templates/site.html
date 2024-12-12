@@ -1,0 +1,50 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Choose an event:</h2>
+
+    <!-- Пребарувачка форма -->
+    <form method="get" action="/">
+        <label for="searchText">Search by name or description:</label>
+        <input type="text" name="searchText" id="searchText" placeholder="Enter search text"><br><br>
+
+        <label for="minRating">Minimum rating:</label>
+        <input type="number" name="minRating" id="minRating" min="0" max="5" step="0.1" placeholder="Enter min rating"><br><br>
+
+        <input type="submit" value="Search">
+    </form>
+
+    <!-- Листа на настани -->
+    <form method="post" action="/eventBooking">
+        <div th:each="event : ${events}">
+            <input type="radio" name="eventName" th:value="${event.name}" th:text="'Name: ' + ${event.name} + ', Description: ' + ${event.description} + ', Rating: ' + ${event.popularityScore}"></input>
+            <br>
+
+            <div>
+                <button><a th:href="@{'/events/edit-form/' + ${event.id}}" style="text-decoration: none">Edit</a></button>
+                <button><a th:href="@{'/events/delete/' + ${event.id}}" style="text-decoration: none">Delete</a></button>
+            </div>
+
+            <br>
+        </div>
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="numTickets" min="1" max="10"><br/>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+</main>
+</body>
+</html>
